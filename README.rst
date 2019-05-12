@@ -14,12 +14,12 @@ Behold My Awesome Project!
 How to run locally
 ------------------
 You'll need python3 installed + pip + virtualenvwrapper + PostgreSQL db.
-1. Create new virtualenv in shell by running ``mkvirtualenv secureapi_web``
-2. Install python dependencies ``pip install -r requirements.txt``
-3. Create postgresql db.
-4. Set env variables: ``DJANGO_SETTINGS_MODULE=config.settings.local;DATABASE_URL=postgres://postgres:root@127.0.0.1:5432/<db_name>;USE_DOCKER=no``
-5. Run database migration ``python manage.py migrate``
-6. Run local server ``python manage.py runserver``
+    1. Create new virtualenv in shell by running ``mkvirtualenv secureapi_web``
+    2. Install python dependencies ``pip install -r requirements.txt``
+    3. Create postgresql db.
+    4. Set env variables: ``DJANGO_SETTINGS_MODULE=config.settings.local;DATABASE_URL=postgres://postgres:root@127.0.0.1:5432/<db_name>;USE_DOCKER=no``
+    5. Run database migration ``python manage.py migrate``
+    6. Run local server ``python manage.py runserver``
 
 
 You can see list of endpoints by running ``python manage.py show_urls``. If you need information about json objects which are expected on certain endpoint, just open it in browser and you should see
