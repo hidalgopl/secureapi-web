@@ -1,0 +1,5 @@
+[run]
+include = secureapi_web/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
