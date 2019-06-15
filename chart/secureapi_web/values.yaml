@@ -1,0 +1,22 @@
+image:
+  repository: secureapi/web
+  tag: latest
+  pullPolicy: IfNotPresent
+  pullSecrets:
+  - name: dockerhubpull
+
+replicas: 2
+
+resources:
+  limits:
+    cpu: 2
+    memory: 1024Mi
+  requests:
+    cpu: 1
+    memory: 512Mi
+
+service:
+  type: NodePort
+  nodePort: 30565
+  externalPort: 80
+  internalPort: 80

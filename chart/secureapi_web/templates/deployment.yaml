@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    type: horizontal
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+      annotations:
+        date: '{{ now.Unix }}'
+    spec:
+      imagePullSecrets:
+{{ toYaml .Values.image.pullSecrets | indent 8 }}
+      containers:
+      - name: {{ .Chart.Name }}
+        env:
+        - name: HELM_CHART
+          value: '{{ .Chart.Name }}'
+        - name: HELM_RELEASE
+          value: '{{ .Release.Name }}'
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+            scheme: HTTP
