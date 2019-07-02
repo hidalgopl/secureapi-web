@@ -5,18 +5,18 @@ image:
   pullSecrets:
   - name: dockerhubpull
 
-replicas: 2
+replicas: 1
 
 resources:
   limits:
-    cpu: 2
+    cpu: 1
     memory: 1024Mi
   requests:
-    cpu: 1
+    cpu: 500m
     memory: 512Mi
 
 service:
   type: NodePort
   nodePort: 30565
   externalPort: 80
-  internalPort: 80
+  internalPort: 8000

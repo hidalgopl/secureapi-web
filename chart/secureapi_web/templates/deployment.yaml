@@ -29,6 +29,38 @@ spec:
           value: '{{ .Chart.Name }}'
         - name: HELM_RELEASE
           value: '{{ .Release.Name }}'
+        - name: USE_DOCKER
+          value: 'yes'
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-db
+              key: user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-db
+              key: password
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres-db
+              key: host
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-db
+              key: name
+        - name: POSTGRES_PORT
+          valueFrom:
+            secretKeyRef:
+              name: postgres-db
+              key: port
+        - name: X_SECUREAPI_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: boatswain-web
+              key: authKey
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
@@ -36,5 +68,5 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 80
+            port: 8000
             scheme: HTTP

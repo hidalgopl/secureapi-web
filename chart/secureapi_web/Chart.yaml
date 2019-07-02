@@ -1,4 +1,4 @@
 apiVersion: v1
 description: secureapi_web chart
-name: secureapi_web
+name: secureapi-web
 version: 0.1.0
