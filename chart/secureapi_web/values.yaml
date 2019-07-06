@@ -16,7 +16,5 @@ resources:
     memory: 512Mi
 
 service:
-  type: NodePort
-  nodePort: 30565
   externalPort: 80
   internalPort: 8000

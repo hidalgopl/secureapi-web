@@ -32,15 +32,16 @@ spec:
         - name: USE_DOCKER
           value: 'yes'
         - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: postgres-db
-              key: user
+          value: 'postgres'
+#          valueFrom:
+#            secretKeyRef:
+#              name: postgres-db
+#              key: user
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres-db
-              key: password
+              name: my-postgresql
+              key: postgresql-password
         - name: POSTGRES_HOST
           valueFrom:
             secretKeyRef:
@@ -70,3 +71,5 @@ spec:
             path: /health
             port: 8000
             scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
