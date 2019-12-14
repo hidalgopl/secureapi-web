@@ -1,44 +1,27 @@
-from django.conf import settings
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from django.db.models.signals import m2m_changed
-from django.dispatch import receiver
-
-from model_utils import Choices
-from model_utils.fields import StatusField
 from model_utils.models import TimeStampedModel
 
 
-class SecError(models.Model):
-    code = models.CharField(max_length=10, primary_key=True)
-    description = models.TextField()
-    title = models.CharField(max_length=128)
+class SecTest(TimeStampedModel):
+    id = models.AutoField(primary_key=True)  # AutoField?
+    result = models.IntegerField()
+    code = models.TextField()
+    suite = models.ForeignKey("SecTestSuite", models.DO_NOTHING, db_column="suite")
 
-    def __str__(self):
-        return "({}){}".format(self.code, self.title)
-
-
-class SecTest(models.Model):
-    RESULTS = Choices('passed', 'failed', 'error')
-    result = StatusField(choices_name='RESULTS')
-    error_code = models.ForeignKey('sectests.SecError', on_delete=models.DO_NOTHING)
+    class Meta:
+        db_table = "sectest"
 
 
 class SecTestSuite(TimeStampedModel):
-    tests = models.ManyToManyField('sectests.SecTest')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    security_index = models.FloatField(null=True)
-
-    def calculate_security_index(self):
-        failed_test = self.tests.filter(result="failed").count()
-        all_tests = self.tests.objects.count()
-        return (all_tests - failed_test) / failed_test
+    id = models.CharField(primary_key=True, max_length=128)  # AutoField?
+    url = models.TextField()
 
     class Meta:
-        ordering = ('-modified', )
-
-
-@receiver(m2m_changed, sender=SecTestSuite.tests.through)
-def video_category_changed(sender, instance, action, **kwargs):
-    if action in ['post_remove', 'post_add']:
-        instance.security_index = instance.calculate_security_index()
-        instance.save()
+        db_table = "sectestsuite"

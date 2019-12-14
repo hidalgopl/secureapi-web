@@ -1,19 +1,21 @@
-from drf_writable_nested import WritableNestedModelSerializer
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from secureapi_web.sectests.models import SecTest, SecTestSuite
+from secureapi_web.sectests.models import SecTestSuite, SecTest
 
 
-class SecTestSerializer(serializers.ModelSerializer):
+class SecTestSerializer(ModelSerializer):
     class Meta:
         model = SecTest
-        fields = ('id', 'result', 'error_code')
+        fields = ("id", "result", "code")
 
 
-class SecTestSuiteSerializer(WritableNestedModelSerializer):
-    tests = SecTestSerializer(many=True)
+class SecTestSuiteSerializer(ModelSerializer):
+    tests = SerializerMethodField()
+
+    def get_tests(self, obj):
+        tests = obj.sectest_set.all()
+        return SecTestSerializer(tests, many=True).data
 
     class Meta:
         model = SecTestSuite
-        fields = ('tests', 'user', 'security_index')
-
+        fields = ("id", "url", "tests")

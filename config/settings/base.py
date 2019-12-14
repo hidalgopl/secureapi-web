@@ -42,6 +42,7 @@ USE_TZ = True
 DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
+
 # URLS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
@@ -236,6 +237,19 @@ ACCOUNT_ADAPTER = "secureapi_web.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "secureapi_web.users.adapters.SocialAccountAdapter"
 
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    }
+}
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+BASICAUTH_USERS = {
+    "hidalgo": "let-me-in"
+}

@@ -3,6 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
+from secureapi_web.sectests.models import SecTest
+
 User = get_user_model()
 
 
@@ -50,3 +52,14 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+class TestListView(LoginRequiredMixin, ListView):
+
+    model = SecTest
+    # slug_field = "username"
+    # slug_url_kwarg = "username"
+    template_name = "users/user_tests.html"
+
+
+test_list_view = TestListView.as_view()

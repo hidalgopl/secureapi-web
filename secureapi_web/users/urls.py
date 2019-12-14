@@ -1,6 +1,7 @@
 from django.urls import path
 
 from secureapi_web.users.views import (
+    test_list_view,
     user_list_view,
     user_redirect_view,
     user_update_view,
@@ -13,4 +14,5 @@ urlpatterns = [
     path("~redirect/", view=user_redirect_view, name="redirect"),
     path("~update/", view=user_update_view, name="update"),
     path("<str:username>/", view=user_detail_view, name="detail"),
+    path("test", view=test_list_view, name="tests"),
 ]
