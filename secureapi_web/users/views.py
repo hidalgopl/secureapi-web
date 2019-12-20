@@ -3,7 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
+from rest_framework.generics import RetrieveDestroyAPIView
+
 from secureapi_web.sectests.models import SecTest
+from secureapi_web.users.models import CLIToken
+from secureapi_web.users.serializers import CLITokenSerializer
 
 User = get_user_model()
 
@@ -63,3 +67,14 @@ class TestListView(LoginRequiredMixin, ListView):
 
 
 test_list_view = TestListView.as_view()
+
+
+class UserCLITokenView(RetrieveDestroyAPIView):
+    serializer_class = CLITokenSerializer
+
+    def get_object(self):
+        print(f"user: {self.request.user}")
+        return CLIToken.objects.get(user=self.request.user)
+
+
+cli_token_view = UserCLITokenView.as_view()

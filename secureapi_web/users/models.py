@@ -22,3 +22,6 @@ class CLIToken(models.Model):
     token = models.CharField(default=cli_token_gen, max_length=36)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.user.username}: {self.token[:3]}...{self.token[-3:]}"
+
