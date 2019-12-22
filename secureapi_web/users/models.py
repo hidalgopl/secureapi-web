@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -13,6 +15,7 @@ class User(AbstractUser):
     # First Name and Last Name do not cover name patterns
     # around the globe.
     name = CharField(_("Name of User"), blank=True, max_length=255)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})

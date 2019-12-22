@@ -1,11 +1,17 @@
+from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
 from rest_framework.decorators import authentication_classes, permission_classes
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, GenericAPIView, get_object_or_404
+from rest_framework.views import APIView
+from rest_framework import status
 
-from secureapi_web.sectests.serializers import SecTestSuiteSerializer
+from secureapi_web.sectests.serializers import SecTestSuiteSerializer, CLIAuthSerializer
 from secureapi_web.sectests.models import SecTestSuite
 
 from basicauth.decorators import basic_auth_required
+
+from secureapi_web.sectests.service import CLIAuthService
 
 
 class MyTestsView(ListAPIView):
@@ -20,11 +26,32 @@ class MyTestsView(ListAPIView):
 my_tests_view = MyTestsView.as_view()
 
 
+class CLIAuthView(APIView):
+    serializer_class = CLIAuthSerializer
+
+    def post(self, request):
+        serializer = CLIAuthSerializer(data=request.data)
+        serializer.is_valid()
+        service = CLIAuthService(
+            username=serializer.data["username"],
+            cli_token=serializer.data["access_key"],
+        )
+        user_id, valid = service.process_request()
+        status_code = status.HTTP_200_OK if valid else status.HTTP_401_UNAUTHORIZED
+        return JsonResponse(
+            status=status_code,
+            data={"user_id": user_id, "is_allowed": valid, "remain_limit": "234"},
+        )
+
+
+cli_auth_view = CLIAuthView.as_view()
+
+
 @basic_auth_required
 def fake_basic_auth_view(request):
-    return JsonResponse(
-        {"is_allowed": True, "remain_limit": "234"}
-    )
+    User = get_user_model()
+    User.objects.get()
+    return JsonResponse({"is_allowed": True, "remain_limit": "234"})
 
 
 @authentication_classes([])

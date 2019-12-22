@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from django.conf import settings
 from django.db import models
 from model_utils.models import TimeStampedModel
 
@@ -22,6 +23,7 @@ class SecTest(TimeStampedModel):
 class SecTestSuite(TimeStampedModel):
     id = models.CharField(primary_key=True, max_length=128)  # AutoField?
     url = models.TextField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.DO_NOTHING)
 
     class Meta:
         db_table = "sectestsuite"

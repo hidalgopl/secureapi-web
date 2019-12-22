@@ -1,4 +1,5 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, Serializer
 
 from secureapi_web.sectests.models import SecTestSuite, SecTest
 
@@ -19,3 +20,15 @@ class SecTestSuiteSerializer(ModelSerializer):
     class Meta:
         model = SecTestSuite
         fields = ("id", "url", "tests")
+
+
+class CLIAuthSerializer(Serializer):
+    username = serializers.CharField()
+    access_key = serializers.CharField()
+
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
