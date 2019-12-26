@@ -12,20 +12,16 @@ FINGERPRINT_HEADERS = (
     "server",
     "x-aspnet-version",
     "x-aspnetmvc-version",
-
 )
 
-FINGERPRINT_COOKIES = (
-    "zope3",
-    "cakephp",
-    "kohanasession",
-    "laravel_session"
-)
+FINGERPRINT_COOKIES = ("zope3", "cakephp", "kohanasession", "laravel_session")
 
 log = logging.getLogger(__name__)
 
 
-def x_content_type_options_nosniff(response: requests.Response, client) -> SecTestResult:
+def x_content_type_options_nosniff(
+    response: requests.Response, client
+) -> SecTestResult:
     test_code = "SEC#0001"
     try:
         header = response.headers.get("x-content-type-options")
@@ -37,11 +33,7 @@ def x_content_type_options_nosniff(response: requests.Response, client) -> SecTe
     except Exception as e:
         log.exception(e)
         status = "error"
-    return SecTestResult(
-        url=response.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=response.url, test_code=test_code, status=status)
 
 
 def x_frame_options_deny(response: requests.Response, client) -> SecTestResult:
@@ -55,11 +47,7 @@ def x_frame_options_deny(response: requests.Response, client) -> SecTestResult:
     except Exception as e:
         log.exception(e)
         status = "error"
-    return SecTestResult(
-        url=response.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=response.url, test_code=test_code, status=status)
 
 
 def x_xss_protection(response: requests.Response, client) -> SecTestResult:
@@ -72,11 +60,7 @@ def x_xss_protection(response: requests.Response, client) -> SecTestResult:
             status = "failed"
     except Exception as e:
         log.exception(e)
-    return SecTestResult(
-        url=response.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=response.url, test_code=test_code, status=status)
 
 
 def content_security_policy(response: requests.Response, client) -> SecTestResult:
@@ -90,11 +74,7 @@ def content_security_policy(response: requests.Response, client) -> SecTestResul
     except Exception as e:
         log.exception(e)
         status = "error"
-    return SecTestResult(
-        url=response.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=response.url, test_code=test_code, status=status)
 
 
 def options_request_not_allowed(response: requests.Response, client) -> SecTestResult:
@@ -109,11 +89,7 @@ def options_request_not_allowed(response: requests.Response, client) -> SecTestR
         resp = response
         log.exception(e)
         status = "error"
-    return SecTestResult(
-        url=resp.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=resp.url, test_code=test_code, status=status)
 
 
 def detect_fingerprint_headers(response: requests.Response, client) -> SecTestResult:
@@ -129,11 +105,7 @@ def detect_fingerprint_headers(response: requests.Response, client) -> SecTestRe
     except Exception as e:
         log.exception(e)
         status = "error"
-    return SecTestResult(
-        url=response.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=response.url, test_code=test_code, status=status)
 
 
 def detect_fingerprint_cookies(response: requests.Response, client) -> SecTestResult:
@@ -147,11 +119,7 @@ def detect_fingerprint_cookies(response: requests.Response, client) -> SecTestRe
     except Exception as e:
         log.exception(e)
         status = "error"
-    return SecTestResult(
-        url=response.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=response.url, test_code=test_code, status=status)
 
 
 def check_cors_setup(response: requests.Response, client) -> SecTestResult:
@@ -165,20 +133,14 @@ def check_cors_setup(response: requests.Response, client) -> SecTestResult:
     except Exception as e:
         log.exception(e)
         status = "error"
-    return SecTestResult(
-        url=response.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=response.url, test_code=test_code, status=status)
 
 
 def check_if_payload_is_validated(response: requests.Response, client) -> SecTestResult:
     test_code = "SEC#0009"
     random_key, random_val = secrets.token_urlsafe(), secrets.token_hex()
     try:
-        random_payload = json.dumps(
-            {random_key: random_val}
-        )
+        random_payload = json.dumps({random_key: random_val})
         resp = client.get(response.url, json=random_payload)
         if resp.status_code != requests.status_codes.codes.bad_request:
             status = "failed"
@@ -186,8 +148,4 @@ def check_if_payload_is_validated(response: requests.Response, client) -> SecTes
             status = "passed"
     except Exception as e:
         status = "error"
-    return SecTestResult(
-        url=response.url,
-        test_code=test_code,
-        status=status
-    )
+    return SecTestResult(url=response.url, test_code=test_code, status=status)

@@ -61,7 +61,6 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
-
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -77,6 +76,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "secureapi_web.users.apps.UsersAppConfig",
     "secureapi_web.sectests.apps.SectestsConfig",
+    "secureapi_web.solutions.apps.SolutionsConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -238,19 +238,9 @@ ACCOUNT_ADAPTER = "secureapi_web.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "secureapi_web.users.adapters.SocialAccountAdapter"
 
-SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        'SCOPE': [
-            'user',
-            'repo',
-            'read:org',
-        ],
-    }
-}
+SOCIALACCOUNT_PROVIDERS = {"github": {"SCOPE": ["user", "repo", "read:org"]}}
 
 # Your stuff...
 # ------------------------------------------------------------------------------
 
-BASICAUTH_USERS = {
-    "hidalgo": "let-me-in"
-}
+BASICAUTH_USERS = {"hidalgo": "let-me-in"}

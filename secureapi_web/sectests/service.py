@@ -10,7 +10,7 @@ class CLIAuthService:
     def _fetch_from_db(self):
         # User = get_user_model()
         try:
-            token = CLIToken.objects.select_related('user').get(token=self.access_key)
+            token = CLIToken.objects.select_related("user").get(token=self.access_key)
         except CLIToken.DoesNotExist:
             print("doesn't exists")
             return None

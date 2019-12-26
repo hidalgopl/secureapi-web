@@ -1,16 +1,10 @@
-from django.contrib.auth import get_user_model
 from django.http import JsonResponse
-from django.utils.decorators import method_decorator
-from rest_framework.decorators import authentication_classes, permission_classes
-from rest_framework.generics import ListAPIView, GenericAPIView, get_object_or_404
-from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
 
-from secureapi_web.sectests.serializers import SecTestSuiteSerializer, CLIAuthSerializer
 from secureapi_web.sectests.models import SecTestSuite
-
-from basicauth.decorators import basic_auth_required
-
+from secureapi_web.sectests.serializers import SecTestSuiteSerializer, CLIAuthSerializer
 from secureapi_web.sectests.service import CLIAuthService
 
 
@@ -20,7 +14,12 @@ class MyTestsView(ListAPIView):
     serializer_class = SecTestSuiteSerializer
 
     def get_queryset(self):
-        return SecTestSuite.objects.all()
+        qs = (
+            SecTestSuite.objects.prefetch_related("sectest_set")
+            .select_related("user")
+            .filter(user=self.request.user)
+        )
+        return qs
 
 
 my_tests_view = MyTestsView.as_view()
@@ -45,16 +44,3 @@ class CLIAuthView(APIView):
 
 
 cli_auth_view = CLIAuthView.as_view()
-
-
-@basic_auth_required
-def fake_basic_auth_view(request):
-    User = get_user_model()
-    User.objects.get()
-    return JsonResponse({"is_allowed": True, "remain_limit": "234"})
-
-
-@authentication_classes([])
-@permission_classes([])
-def test_runner(request):
-    return JsonResponse({"subject": "test.4.*.complete"})
