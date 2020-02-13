@@ -17,7 +17,7 @@ class MyTestsView(ListAPIView):
         qs = (
             SecTestSuite.objects.prefetch_related("sectest_set")
             .select_related("user")
-            .filter(user=self.request.user)
+            .filter(user=self.request.user.pk)
         )
 
         return qs

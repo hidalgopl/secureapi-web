@@ -244,3 +244,7 @@ SOCIALACCOUNT_PROVIDERS = {"github": {"SCOPE": ["user", "repo", "read:org"]}}
 # ------------------------------------------------------------------------------
 
 BASICAUTH_USERS = {"hidalgo": "let-me-in"}
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
+}
