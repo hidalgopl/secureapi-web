@@ -1,13 +1,16 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
-from rest_framework.generics import RetrieveDestroyAPIView
+from rest_framework.generics import RetrieveDestroyAPIView, RetrieveUpdateAPIView
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from secureapi_web.sectests.models import SecTest
 from secureapi_web.users.models import CLIToken
-from secureapi_web.users.serializers import CLITokenSerializer
+from secureapi_web.users.serializers import CLITokenSerializer, UserProfileSerializer
 
 User = get_user_model()
 
@@ -78,3 +81,31 @@ class UserCLITokenView(RetrieveDestroyAPIView):
 
 
 cli_token_view = UserCLITokenView.as_view()
+
+
+class UserProfileView(RetrieveUpdateAPIView):
+    serializer_class = UserProfileSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+user_profile_view = UserProfileView.as_view()
+
+
+class MockUserProfileView(APIView):
+    def get(self, request):
+        return Response(
+            {
+                "username": "oskarro",
+                "email": "oskar@orzelowski.pl",
+                "first_name": "Oskar",
+                "last_name": "Orzełowski",
+                "company": "thirty3",
+                "password":  "******",
+                "access_key": "my access key"
+            }, headers={'Access-Control-Allow-Origin': '*', "Content-Type": "application/json"}
+        )
+
+
+mock_user_profile = MockUserProfileView.as_view()

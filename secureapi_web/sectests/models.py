@@ -18,6 +18,7 @@ class SecTest(TimeStampedModel):
 
     class Meta:
         db_table = "sectest"
+        ordering = ("code",)
 
 
 class SecTestSuite(TimeStampedModel):
@@ -27,3 +28,4 @@ class SecTestSuite(TimeStampedModel):
 
     class Meta:
         db_table = "sectestsuite"
+        ordering = ("created",)

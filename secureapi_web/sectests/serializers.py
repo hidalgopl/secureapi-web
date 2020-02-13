@@ -18,7 +18,7 @@ class SecTestSuiteSerializer(ModelSerializer):
     tests = SerializerMethodField()
 
     def get_tests(self, obj):
-        tests = obj.sectest_set.all()
+        tests = obj.sectest_set.filter(result=1)
         return SecTestSerializer(tests, many=True).data
 
     class Meta:

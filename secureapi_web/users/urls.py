@@ -6,7 +6,7 @@ from secureapi_web.users.views import (
     user_redirect_view,
     user_update_view,
     user_detail_view,
-    cli_token_view)
+    cli_token_view, user_profile_view, mock_user_profile)
 
 app_name = "users"
 urlpatterns = [
@@ -16,4 +16,6 @@ urlpatterns = [
     path("<str:username>/", view=user_detail_view, name="detail"),
     path("test", view=test_list_view, name="tests"),
     path("settings", view=cli_token_view, name="settings"),
+    path("profile", view=user_profile_view, name="profile"),
+    path("mock", view=mock_user_profile, name="mock")
 ]

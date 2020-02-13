@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from rest_framework import status
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 
 from secureapi_web.sectests.models import SecTestSuite
@@ -19,10 +19,22 @@ class MyTestsView(ListAPIView):
             .select_related("user")
             .filter(user=self.request.user)
         )
+
         return qs
 
 
 my_tests_view = MyTestsView.as_view()
+
+
+class SecTestSuiteDetailsView(RetrieveAPIView):
+    serializer_class = SecTestSuiteSerializer
+
+    def get_queryset(self):
+        qs = SecTestSuite.objects.filter(user=self.request.user)
+        return qs
+
+
+sec_test_suite_details_view = SecTestSuiteDetailsView.as_view()
 
 
 class CLIAuthView(APIView):
