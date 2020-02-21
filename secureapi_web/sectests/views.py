@@ -9,8 +9,9 @@ from secureapi_web.sectests.service import CLIAuthService
 
 
 class MyTestsView(ListAPIView):
-    # filter_backends = (filters.DjangoFilterBackend,)
-    # filterset_fields = ('result',)
+    """
+    Returns paginated list of user's tests.
+    """
     serializer_class = SecTestSuiteSerializer
 
     def get_queryset(self):
@@ -27,6 +28,9 @@ my_tests_view = MyTestsView.as_view()
 
 
 class SecTestSuiteDetailsView(RetrieveAPIView):
+    """
+    Returns details for test suite.
+    """
     serializer_class = SecTestSuiteSerializer
 
     def get_queryset(self):
@@ -38,6 +42,9 @@ sec_test_suite_details_view = SecTestSuiteDetailsView.as_view()
 
 
 class CLIAuthView(APIView):
+    """
+    Endpoint used for CLI tool authentication.
+    """
     serializer_class = CLIAuthSerializer
 
     def post(self, request):

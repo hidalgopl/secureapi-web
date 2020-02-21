@@ -84,6 +84,9 @@ cli_token_view = UserCLITokenView.as_view()
 
 
 class UserProfileView(RetrieveUpdateAPIView):
+    """
+    Return user profile. Used on user settings page. Supports also updates in profile.
+    """
     serializer_class = UserProfileSerializer
 
     def get_object(self):

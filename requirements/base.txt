@@ -21,4 +21,4 @@ djangorestframework==3.9.3  # https://github.com/encode/django-rest-framework
 coreapi==2.3.3  # https://github.com/core-api/python-client
 django-rest-auth==0.9.5
 drf-writable-nested==0.5.1
-django-basicauth
+drf-yasg==1.17.1
