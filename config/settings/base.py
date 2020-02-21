@@ -76,7 +76,6 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "secureapi_web.users.apps.UsersAppConfig",
     "secureapi_web.sectests.apps.SectestsConfig",
-    "secureapi_web.solutions.apps.SolutionsConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

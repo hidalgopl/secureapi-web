@@ -21,7 +21,6 @@ urlpatterns = [
     path("users/", include("secureapi_web.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     path("tests/", include("secureapi_web.sectests.urls", namespace="tests")),
-    path("solutions/", include("secureapi_web.solutions.urls", namespace="solutions")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
