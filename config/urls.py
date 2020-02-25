@@ -36,11 +36,10 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("rest-auth/", include("rest_auth.urls")),
-    path("rest-auth/registration/", include("rest_auth.registration.urls")),
-    path("users/", include("secureapi_web.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
     path("tests/", include("secureapi_web.sectests.urls", namespace="tests")),
+    url(r'^auth/', include('djoser.urls')),
+    url(r'^auth/', include('djoser.urls.authtoken')),
+    path("users/", include("secureapi_web.users.urls", namespace="users")),
     url(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
