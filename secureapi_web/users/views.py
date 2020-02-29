@@ -12,6 +12,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from social_django.utils import psa
+from social_core.exceptions import AuthForbidden
 
 from secureapi_web.sectests.models import SecTest
 from secureapi_web.users.models import CLIToken
@@ -156,7 +157,7 @@ def exchange_token(request, backend):
             # get and populate a user object for any properly enabled/configured backend
             # which python-social-auth can handle.
             user = request.backend.do_auth(serializer.validated_data['access_token'])
-        except HTTPError as e:
+        except AuthForbidden as e:
             # An HTTPError bubbled up from the request to the social auth provider.
             # This happens, at least in Google's case, every time you send a malformed
             # or incorrect access key.

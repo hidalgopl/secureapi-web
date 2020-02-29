@@ -236,8 +236,8 @@ REST_FRAMEWORK = {
 SWAGGER_SETTINGS = {
     "USE_SESSION_AUTH": False
 }
-SOCIAL_AUTH_GITHUB_KEY = 'a1b2c3d4'
-SOCIAL_AUTH_GITHUB_SECRET = 'e5f6g7h8i9'
+SOCIAL_AUTH_GITHUB_KEY = 'db1af0e0a872e0d8836b'
+SOCIAL_AUTH_GITHUB_SECRET = 'c88da41e9088dbec9d5c6c6c545c88357b755c76'
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
