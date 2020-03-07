@@ -1,6 +1,7 @@
 """
 Base settings to build other settings files upon.
 """
+import os
 
 import environ
 
@@ -129,6 +130,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
 # STATIC
@@ -230,7 +232,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    'PAGE_SIZE': 100,
+    'EXCEPTION_HANDLER': 'rollbar.contrib.django_rest_framework.post_exception_handler'
 }
 
 SWAGGER_SETTINGS = {
@@ -249,3 +252,10 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'social_core.pipeline.social_auth.associate_by_email',
 )
+
+ROLLBAR = {
+    'access_token': os.getenv("ROLLBAR_TOKEN", ""),
+    'environment': 'development' if DEBUG else 'production',
+    'branch': 'master',
+    'root': ROOT_DIR,
+}
