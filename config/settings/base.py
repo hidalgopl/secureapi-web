@@ -70,7 +70,8 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "django_filters",
     "drf_yasg",
-    "social_django"
+    "social_django",
+    "corsheaders",
 ]
 LOCAL_APPS = [
     "secureapi_web.users.apps.UsersAppConfig",
@@ -125,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -251,7 +253,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
     'social_core.pipeline.social_auth.associate_by_email',
+    # 'secureapi_web.users.slack_pipeline.notify_on_slack' TODO - enable later
 )
+
 
 ROLLBAR = {
     'access_token': os.getenv("ROLLBAR_TOKEN", ""),
@@ -259,3 +263,7 @@ ROLLBAR = {
     'branch': 'master',
     'root': ROOT_DIR,
 }
+
+SLACK_TOKEN = os.getenv("SLACK_TOKEN")
+SLACK_NOFITY_CHANNEL = "#new_users"
+CORS_ORIGIN_ALLOW_ALL = True  # TODO - override on prod

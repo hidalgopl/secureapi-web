@@ -17,9 +17,11 @@ django-filter==2.1.0
 
 # Django REST Framework
 djangorestframework==3.9.3  # https://github.com/encode/django-rest-framework
+django-cors-headers
 coreapi==2.3.3  # https://github.com/core-api/python-client
 drf-yasg==1.17.1
 djoser==2.0.3
 social-auth-app-django==3.1.0
 social-auth-core
 rollbar
+slackclient
