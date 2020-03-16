@@ -61,26 +61,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
     "DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", default=True
 )
 
-# STORAGES
-# ------------------------------------------------------------------------------
-# https://django-storages.readthedocs.io/en/latest/#installation
-INSTALLED_APPS += ["storages"]  # noqa F405
-
-DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-GS_BUCKET_NAME = env("DJANGO_GCE_STORAGE_BUCKET_NAME")
-GS_DEFAULT_ACL = "publicRead"
-
-
-# STATIC
-# ------------------------
-
-STATIC_URL = "https://storage.googleapis.com/{}/static".format(GS_BUCKET_NAME)
-
-# MEDIA
-# ------------------------------------------------------------------------------
-MEDIA_URL = "https://storage.googleapis.com/{}/media".format(GS_BUCKET_NAME)
-MEDIA_ROOT = "https://storage.googleapis.com/{}/media".format(GS_BUCKET_NAME)
-
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
@@ -170,17 +150,6 @@ LOGGING = {
         },
     },
 }
-
-# Sentry
-# ------------------------------------------------------------------------------
-SENTRY_DSN = env("SENTRY_DSN")
-SENTRY_LOG_LEVEL = env.int("DJANGO_SENTRY_LOG_LEVEL", logging.INFO)
-
-sentry_logging = LoggingIntegration(
-    level=SENTRY_LOG_LEVEL,  # Capture info and above as breadcrumbs
-    event_level=None,  # Send no events from log messages
-)
-sentry_sdk.init(dsn=SENTRY_DSN, integrations=[sentry_logging, DjangoIntegration()])
 
 # Your stuff...
 # ------------------------------------------------------------------------------
