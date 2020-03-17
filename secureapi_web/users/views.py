@@ -224,7 +224,8 @@ class ExchangeCodetoAccessTokenView(APIView):
                 }
                 resp = requests.post(
                     GithubOAuth2.ACCESS_TOKEN_URL,
-                    data=body
+                    data=body,
+                    headers={"Accept": "application/json"}
                 )
                 print(resp.content)
                 access_token = resp.json()["access_token"]
