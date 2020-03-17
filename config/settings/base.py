@@ -96,7 +96,7 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "users:redirect"
+# LOGIN_REDIRECT_URL = "users:redirect"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 
 # PASSWORDS
@@ -241,8 +241,9 @@ REST_FRAMEWORK = {
 SWAGGER_SETTINGS = {
     "USE_SESSION_AUTH": False
 }
-SOCIAL_AUTH_GITHUB_KEY = 'db1af0e0a872e0d8836b'
-SOCIAL_AUTH_GITHUB_SECRET = 'c88da41e9088dbec9d5c6c6c545c88357b755c76'
+SOCIAL_AUTH_GITHUB_KEY = env.str("SOCIAL_AUTH_GITHUB_KEY")
+SOCIAL_AUTH_GITHUB_SECRET = env.str("SOCIAL_AUTH_GITHUB_SECRET")
+GITHUB_REDIRECT_URI = env.str("GITHUB_REDIRECT_URI", "http://localhost:3000/login/github")
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',

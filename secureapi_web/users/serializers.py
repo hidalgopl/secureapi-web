@@ -28,3 +28,17 @@ class SocialSerializer(serializers.Serializer):
         allow_blank=False,
         trim_whitespace=True,
     )
+
+
+class CodeSerializer(serializers.Serializer):
+    """
+    Serializer which accepts an OAuth2 access token.
+    """
+    code = serializers.CharField(
+        allow_blank=False,
+        trim_whitespace=True,
+    )
+    state = serializers.CharField(
+        allow_blank=False,
+        trim_whitespace=True
+    )

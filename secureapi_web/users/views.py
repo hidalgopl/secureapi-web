@@ -1,25 +1,30 @@
+from json import JSONDecodeError
+
+import requests
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from requests.exceptions import HTTPError
+from social_core.backends.github import GithubOAuth2
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.generics import RetrieveDestroyAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from social_django.utils import psa
 from social_core.exceptions import AuthForbidden
+from logging import getLogger
 
 from secureapi_web.sectests.models import SecTest
 from secureapi_web.users.models import CLIToken
-from secureapi_web.users.serializers import CLITokenSerializer, UserProfileSerializer, SocialSerializer
+from secureapi_web.users.serializers import CLITokenSerializer, UserProfileSerializer, SocialSerializer, CodeSerializer
 
 User = get_user_model()
-
+log = getLogger(__name__)
 
 class UserDetailView(LoginRequiredMixin, DetailView):
 
@@ -122,6 +127,7 @@ mock_user_profile = MockUserProfileView.as_view()
 
 @api_view(http_method_names=['POST'])
 @permission_classes([AllowAny])
+@authentication_classes([])
 @psa()
 def exchange_token(request, backend):
     """
@@ -190,3 +196,55 @@ def exchange_token(request, backend):
                 {'errors': {nfe: "Authentication Failed"}},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class ExchangeCodetoAccessTokenView(APIView):
+    """
+
+         Requests must include the following field
+        - `code`: The OAuth2 code provided by github
+        - `state`: random string used in 1st step of Oauth
+        """
+    permission_classes = (AllowAny,)
+    authentication_classes = ()
+    def post(self, request):
+        serializer = CodeSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            # set up non-field errors key
+            # http://www.django-rest-framework.org/api-guide/exceptions/#exception-handling-in-rest-framework-views
+            nfe = 'non_field_errors'
+            try:
+                body = {
+                    "client_id": settings.SOCIAL_AUTH_GITHUB_KEY,
+                    "client_secret": settings.SOCIAL_AUTH_GITHUB_SECRET,
+                    "code": serializer.validated_data["code"],
+                    "state": serializer.validated_data["state"],
+                    "redirect_uri": settings.GITHUB_REDIRECT_URI
+
+                }
+                resp = requests.post(
+                    GithubOAuth2.ACCESS_TOKEN_URL,
+                    data=body
+                )
+                print(resp.content)
+                access_token = resp.json()["access_token"]
+
+                return Response(
+                    {"access_token": access_token}
+                )
+
+            except (KeyError, JSONDecodeError) as e:
+                print(e)
+                log.info(resp.content)
+                return Response(
+                    {'errors': {nfe: 'access_token not found in github resp'}},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        return Response()
+
+
+get_access_token = ExchangeCodetoAccessTokenView.as_view()
+
+
+
+
