@@ -236,9 +236,9 @@ class ExchangeCodetoAccessTokenView(APIView):
 
             except (KeyError, JSONDecodeError) as e:
                 print(e)
-                log.info(resp.content)
+                error_msg = resp.json().get("error_description")
                 return Response(
-                    {'errors': {nfe: 'access_token not found in github resp'}},
+                    {'errors': {nfe: error_msg}},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         return Response()
