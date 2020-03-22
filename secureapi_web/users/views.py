@@ -26,6 +26,7 @@ from secureapi_web.users.serializers import CLITokenSerializer, UserProfileSeria
 User = get_user_model()
 log = getLogger(__name__)
 
+
 class UserDetailView(LoginRequiredMixin, DetailView):
 
     model = User
