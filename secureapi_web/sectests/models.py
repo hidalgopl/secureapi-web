@@ -28,4 +28,4 @@ class SecTestSuite(TimeStampedModel):
 
     class Meta:
         db_table = "sectestsuite"
-        ordering = ("created",)
+        ordering = ("-created",)

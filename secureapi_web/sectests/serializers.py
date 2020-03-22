@@ -11,7 +11,7 @@ from secureapi_web.sectests.models import SecTestSuite, SecTest
 class SecTestSerializer(ModelSerializer):
     class Meta:
         model = SecTest
-        fields = ("id", "result", "code")
+        fields = ("id", "result", "code", "created")
 
 
 class SecTestSuiteSerializer(ModelSerializer):
