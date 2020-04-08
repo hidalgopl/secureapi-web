@@ -208,6 +208,7 @@ class ExchangeCodetoAccessTokenView(APIView):
         """
     permission_classes = (AllowAny,)
     authentication_classes = ()
+    
     def post(self, request):
         serializer = CodeSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -228,9 +229,7 @@ class ExchangeCodetoAccessTokenView(APIView):
                     data=body,
                     headers={"Accept": "application/json"}
                 )
-                print(resp.content)
                 access_token = resp.json()["access_token"]
-
                 return Response(
                     {"access_token": access_token}
                 )

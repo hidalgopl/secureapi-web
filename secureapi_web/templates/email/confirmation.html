@@ -1,0 +1,23 @@
+{% load i18n %}
+
+{% block subject %}
+{% blocktrans %}SecureAPI - Your account has been successfully created and activated!{% endblocktrans %}
+{% endblock %}
+
+{% block text_body %}
+{% trans "Your account has been created and is ready to use!" %}
+
+{% trans "Thanks for using our site!" %}
+
+{% blocktrans %}The SecureAPI team{% endblocktrans %}
+{% endblock text_body %}
+
+{% block html_body %}
+<p>{% trans "Your account has been created and is ready to use!" %}</p>
+<p>{% trans "We would love to see you on our slack. Please treat this invitation seriously - we don't charge for our services, so you can pay " %}</p>
+<a href="{{ slack_invitation_url }}">{% trans "Join us on Slack!" %}</a>
+
+<p>{% trans "Thanks for using our site!" %}</p>
+
+<p>{% blocktrans %}The {{ site_name }} team{% endblocktrans %}</p>
+{% endblock html_body %}

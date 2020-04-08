@@ -249,15 +249,15 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'social_core.pipeline.user.create_user',
-    'secureapi_web.users.signals.create_cli_token',
+    'secureapi_web.users.slack_pipeline.create_user',
+    # 'social_core.pipeline.user.create_user',
+    # 'secureapi_web.users.signals.create_cli_token',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
     'social_core.pipeline.social_auth.associate_by_email',
-    # 'secureapi_web.users.slack_pipeline.notify_on_slack' TODO - enable later
+    # 'secureapi_web.users.slack_pipeline.notify_on_slack' # TODO - enable later
 )
-
 ROLLBAR = {
     'access_token': os.getenv("ROLLBAR_TOKEN", ""),
     'environment': 'development' if DEBUG else 'production',
@@ -266,5 +266,7 @@ ROLLBAR = {
 }
 
 SLACK_TOKEN = os.getenv("SLACK_TOKEN")
-SLACK_NOFITY_CHANNEL = "#new_users"
+SLACK_NOTIFY_CHANNEL = "#users_bot"
 CORS_ORIGIN_ALLOW_ALL = True  # TODO - override on prod
+SLACK_INVITE_URL = env("SLACK_INVITE_URL", default="http://invite.to.slack.com")
+SLACK_NOTIFY_ENABLED = True

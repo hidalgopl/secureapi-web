@@ -65,3 +65,7 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+SEND_ACTIVATION_EMAIL = True
+SEND_CONFIRMATION_EMAIL = True
+DEFAULT_FROM_EMAIL = "noreply@secureapi.dev"
+SLACK_NOTIFY_ENABLED = False

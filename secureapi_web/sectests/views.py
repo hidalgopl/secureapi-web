@@ -58,7 +58,7 @@ class CLIAuthView(APIView):
         status_code = status.HTTP_200_OK if valid else status.HTTP_401_UNAUTHORIZED
         return JsonResponse(
             status=status_code,
-            data={"user_id": user_id, "is_allowed": valid, "remain_limit": "234"},
+            data={"user_id": user_id, "is_allowed": valid},
         )
 
 
