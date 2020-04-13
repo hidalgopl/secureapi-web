@@ -108,24 +108,6 @@ class UserProfileView(RetrieveUpdateAPIView):
 user_profile_view = UserProfileView.as_view()
 
 
-class MockUserProfileView(APIView):
-    def get(self, request):
-        return Response(
-            {
-                "username": "oskarro",
-                "email": "oskar@orzelowski.pl",
-                "first_name": "Oskar",
-                "last_name": "Orzełowski",
-                "company": "thirty3",
-                "password":  "******",
-                "access_key": "my access key"
-            }, headers={'Access-Control-Allow-Origin': '*', "Content-Type": "application/json"}
-        )
-
-
-mock_user_profile = MockUserProfileView.as_view()
-
-
 @api_view(http_method_names=['POST'])
 @permission_classes([AllowAny])
 @authentication_classes([])
@@ -208,7 +190,7 @@ class ExchangeCodetoAccessTokenView(APIView):
         """
     permission_classes = (AllowAny,)
     authentication_classes = ()
-    
+
     def post(self, request):
         serializer = CodeSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
