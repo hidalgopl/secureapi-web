@@ -7,17 +7,17 @@
 {% block text_body %}
 {% trans "Your account has been created and is ready to use!" %}
 
-{% trans "Thanks for using our site!" %}
+{% trans "Thanks for using our product!" %}
 
 {% blocktrans %}The SecureAPI team{% endblocktrans %}
 {% endblock text_body %}
 
 {% block html_body %}
 <p>{% trans "Your account has been created and is ready to use!" %}</p>
-<p>{% trans "We would love to see you on our slack. Please treat this invitation seriously - we don't charge for our services, so you can pay " %}</p>
+<p>{% trans "We would love to see you on our slack. Please treat this invitation seriously - we don't charge for our services so let us know what you think about our product!" %}</p>
 <a href="{{ slack_invitation_url }}">{% trans "Join us on Slack!" %}</a>
 
-<p>{% trans "Thanks for using our site!" %}</p>
+<p>{% trans "Thanks!" %}</p>
 
-<p>{% blocktrans %}The {{ site_name }} team{% endblocktrans %}</p>
+<p>{% blocktrans %}Oskar and Paweł, SecureAPI team{% endblocktrans %}</p>
 {% endblock html_body %}
