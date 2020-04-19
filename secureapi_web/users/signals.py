@@ -1,10 +1,11 @@
-from secureapi_web.users.models import CLIToken, User
-from djoser.compat import get_user_email
-from djoser.signals import user_activated
-from django.dispatch import receiver
-from templated_mail.mail import BaseEmailMessage
 import slack
 from django.conf import settings
+from django.dispatch import receiver
+from djoser.compat import get_user_email
+from djoser.signals import user_activated
+from templated_mail.mail import BaseEmailMessage
+
+from secureapi_web.users.models import CLIToken
 
 
 class WelcomeEmail(BaseEmailMessage):
