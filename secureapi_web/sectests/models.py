@@ -25,6 +25,7 @@ class SecTestSuite(TimeStampedModel):
     id = models.CharField(primary_key=True, max_length=128)  # AutoField?
     url = models.TextField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.DO_NOTHING)
+    origin = models.CharField(max_length=50, default="local_or_other")
 
     class Meta:
         db_table = "sectestsuite"
