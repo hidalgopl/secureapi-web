@@ -180,3 +180,4 @@ MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+rollbar.init(**ROLLBAR)
