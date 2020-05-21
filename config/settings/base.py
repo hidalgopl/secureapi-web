@@ -209,7 +209,9 @@ SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
 
-CONTENT_SECURITY_POLICY = "default-src 'self'"
+CONTENT_SECURITY_POLICY = env(
+    "CONTENT_SECURITY_POLICY", default="default-src 'self'"
+)
 CACHE_CONTROL_MAX_AGE = "max-age=360"
 
 # EMAIL
