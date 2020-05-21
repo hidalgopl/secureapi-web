@@ -265,7 +265,7 @@ SOCIAL_AUTH_PIPELINE = (
 )
 ROLLBAR = {
     'access_token': os.getenv("ROLLBAR_TOKEN", ""),
-    'environment': 'development' if DEBUG else 'production',
+    'environment': env.list("DJANGO_ALLOWED_HOSTS")[0],
     'branch': 'master',
     'root': ROOT_DIR,
 }
