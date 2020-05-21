@@ -1,5 +1,7 @@
 import logging
 
+import rollbar
+
 from .base import *  # noqa
 from .base import env
 
