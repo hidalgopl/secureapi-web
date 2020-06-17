@@ -61,7 +61,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
-    "secureapi_web.users.apps.SuitConfig",
+    "suit",
     "django.contrib.admin",
 ]
 THIRD_PARTY_APPS = [
@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "secureapi_web.users.apps.UsersAppConfig",
     "secureapi_web.sectests.apps.SectestsConfig",
+    "secureapi_web.feedback.apps.FeedbackConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -248,8 +249,8 @@ REST_FRAMEWORK = {
 SWAGGER_SETTINGS = {
     "USE_SESSION_AUTH": False
 }
-SOCIAL_AUTH_GITHUB_KEY = env.str("SOCIAL_AUTH_GITHUB_KEY")
-SOCIAL_AUTH_GITHUB_SECRET = env.str("SOCIAL_AUTH_GITHUB_SECRET")
+SOCIAL_AUTH_GITHUB_KEY = env.str("SOCIAL_AUTH_GITHUB_KEY", "fake-key")
+SOCIAL_AUTH_GITHUB_SECRET = env.str("SOCIAL_AUTH_GITHUB_SECRET", "fake-secret")
 GITHUB_REDIRECT_URI = env.str("GITHUB_REDIRECT_URI", "http://localhost:3000/login/github")
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
@@ -265,9 +266,10 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.associate_by_email',
     # 'secureapi_web.users.slack_pipeline.notify_on_slack' # TODO - enable later
 )
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default="localhost,")
 ROLLBAR = {
     'access_token': os.getenv("ROLLBAR_TOKEN", ""),
-    'environment': env.list("DJANGO_ALLOWED_HOSTS")[0],
+    'environment': ALLOWED_HOSTS[0],
     'branch': 'master',
     'root': ROOT_DIR,
 }

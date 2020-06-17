@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^auth/', include('djoser.urls')),
     url(r'^auth/', include('djoser.urls.authtoken')),
     path("users/", include("secureapi_web.users.urls", namespace="users")),
+    path('feedback/', include('secureapi_web.feedback.urls', namespace='feedback'))
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
