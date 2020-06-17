@@ -88,7 +88,6 @@ class UserCLITokenView(RetrieveDestroyAPIView):
     serializer_class = CLITokenSerializer
 
     def get_object(self):
-        print(f"user: {self.request.user}")
         return CLIToken.objects.get(user=self.request.user)
 
 
@@ -217,7 +216,6 @@ class ExchangeCodetoAccessTokenView(APIView):
                 )
 
             except (KeyError, JSONDecodeError) as e:
-                print(e)
                 error_msg = resp.json().get("error_description")
                 return Response(
                     {'errors': {nfe: error_msg}},
