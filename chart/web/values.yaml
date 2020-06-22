@@ -55,4 +55,37 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+db:
+  Url: ""
+
+rollbar:
+  Token: ""
+
+slack:
+  Token: ""
+  inviteUrl: ""
+
+aws:
+  AccessKey: ""
+  SecretKey: ""
+  region: ""
+  bucketName: ""
+
+mailgun:
+  Key: ""
+  domain: ""
+  email: ""
+
+django:
+  SecretKey: ""
+  allowedHosts: ""
+  contentSecurityPolicy: ""
+  settings: ""
+  adminUrl: ""
+
+socialAuth:
+  github:
+    secret: ""
+    key: ""
+    redirectUri: ""
 
