@@ -330,3 +330,6 @@ secureapi_web/media/
 .env
 .envs/*
 !.envs/.local/
+.top.secret
+*.sqlite
+*.idea

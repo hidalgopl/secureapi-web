@@ -1,7 +1,6 @@
-# PostgreSQL
-# ------------------------------------------------------------------------------
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-POSTGRES_DB=secureapi_web
-POSTGRES_USER=debug
-POSTGRES_PASSWORD=debug
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5433
+POSTGRES_DB=secureapi
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=secureapi
+DATABASE_URL=postgresql://secureapi:secureapi@0.0.0.0:5433/secureapi
