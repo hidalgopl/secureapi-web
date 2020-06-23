@@ -266,7 +266,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.associate_by_email',
     # 'secureapi_web.users.slack_pipeline.notify_on_slack' # TODO - enable later
 )
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default="*")
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*",])
 ROLLBAR = {
     'access_token': os.getenv("ROLLBAR_TOKEN", ""),
     'environment': ALLOWED_HOSTS[0],
