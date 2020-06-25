@@ -126,7 +126,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/var/log/gunicorn_access.log',
+            'filename': '/app/gunicorn_access.log',
         },
     },
     'loggers': {
