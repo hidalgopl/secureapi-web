@@ -8,4 +8,4 @@ touch /app/gunicorn.log
 touch /app/gunicorn-access.log
 tail -n 0 -f /app/gunicorn*.log &
 
-/usr/local/bin/gunicorn config.wsgi --bind 0.0.0.0:8000 --log-level=info --log-file=/app/gunicorn.log --access-logfile=/app/gunicorn-access.log
+/usr/local/bin/gunicorn config.wsgi --bind 0.0.0.0:8001 --log-level=info --log-file=/app/gunicorn.log --access-logfile=/app/gunicorn-access.log

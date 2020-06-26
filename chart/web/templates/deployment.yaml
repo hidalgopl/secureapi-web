@@ -37,7 +37,7 @@ spec:
             - secretRef:
                 name: web
           ports:
-            - containerPort: 8000
+            - containerPort: 8001
 {{/*          livenessProbe:*/}}
 {{/*            httpGet:*/}}
 {{/*              path: /health*/}}
