@@ -28,7 +28,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # K8s healthcheck endpoint
-    path("health/", healthcheck),
+    path("health", healthcheck),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
