@@ -3,5 +3,7 @@
 set -o errexit
 set -o nounset
 
+mkdir logs
+
 
 uwsgi uwsgi.ini
