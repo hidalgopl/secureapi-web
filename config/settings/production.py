@@ -1,4 +1,5 @@
 import logging
+import sys
 
 import rollbar
 
@@ -18,18 +19,18 @@ DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # no
 
 # CACHES
 # ------------------------------------------------------------------------------
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # Mimicing memcache behavior.
-            # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
-            "IGNORE_EXCEPTIONS": True,
-        },
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": env("REDIS_URL"),
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             # Mimicing memcache behavior.
+#             # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
+#             "IGNORE_EXCEPTIONS": True,
+#         },
+#     }
+# }
 
 # # SECURITY
 # TODO - handle on LBs
@@ -99,10 +100,6 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_DOMAIN"),
 }
 
-# Gunicorn
-# ------------------------------------------------------------------------------
-INSTALLED_APPS += ["gunicorn"]  # noqa F405
-
 # Collectfast
 # ------------------------------------------------------------------------------
 # https://github.com/antonagestam/collectfast#installation
@@ -117,26 +114,31 @@ AWS_PRELOAD_METADATA = True
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s "
-                      "%(process)d %(thread)d %(message)s"
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s'
         }
     },
     'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/app/gunicorn_access.log',
-        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+            'formatter': 'verbose'
+        }
     },
     'loggers': {
-        'gunicorn.access': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+        'django': {
+            'level': 'INFO',
+            'handlers': ['console'],
             'propagate': True,
-        },
-    },
+        }
+    }
 }
 
 

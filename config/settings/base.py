@@ -80,8 +80,10 @@ LOCAL_APPS = [
     "secureapi_web.feedback.apps.FeedbackConfig"
     # Your stuff: custom apps go here
 ]
+
+SCHEMA_APPS = ['drf_spectacular',]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS + SCHEMA_APPS
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -238,7 +240,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
-    'EXCEPTION_HANDLER': 'rollbar.contrib.django_rest_framework.post_exception_handler'
+    'EXCEPTION_HANDLER': 'rollbar.contrib.django_rest_framework.post_exception_handler',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SWAGGER_SETTINGS = {
