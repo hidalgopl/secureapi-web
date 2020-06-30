@@ -10,11 +10,21 @@ from django.utils.translation import ugettext_lazy as _
 from .utils import cli_token_gen
 
 
+class PaidTiers(models.IntegerChoices):
+    FREE = 0
+    FIRST_TIER = 50
+
+
 class User(AbstractUser):
     # First Name and Last Name do not cover name patterns
     # around the globe.
     name = CharField(_("Name of User"), blank=True, max_length=255)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    paid_tier = models.PositiveSmallIntegerField(choices=PaidTiers.choices, default=PaidTiers.FREE)
+
+    @property
+    def is_free(self):
+        return self.paid_tier == PaidTiers.FREE
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})

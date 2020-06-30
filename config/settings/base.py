@@ -40,7 +40,7 @@ USE_TZ = True
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES = {"default": env.db("DATABASE_URL", "sqlite::memory:")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 
@@ -65,7 +65,6 @@ DJANGO_APPS = [
     "django.contrib.admin",
 ]
 THIRD_PARTY_APPS = [
-    "crispy_forms",
     "rest_framework",
     "djoser",
     "rest_framework.authtoken",
@@ -277,3 +276,7 @@ SLACK_NOTIFY_CHANNEL = "#users_bot"
 CORS_ORIGIN_ALLOW_ALL = True  # TODO - override on prod
 SLACK_INVITE_URL = env("SLACK_INVITE_URL", default="http://invite.to.slack.com")
 SLACK_NOTIFY_ENABLED = True
+
+# Free beta controls
+FREE_RUNS_LIMITED = False
+FREE_RUNS = 999999

@@ -1,3 +1,6 @@
+from django.conf import settings
+
+from secureapi_web.sectests.models import SecTestSuite
 from secureapi_web.users.models import CLIToken
 from django.contrib.auth import get_user_model
 from rest_framework import authentication
@@ -25,6 +28,7 @@ class CLIAuthService:
         self.username = username
         self.access_key = cli_token
         self.user_id = ""
+        self.user_is_free = None
 
     def _fetch_from_db(self):
         # User = get_user_model()
@@ -33,6 +37,7 @@ class CLIAuthService:
         except CLIToken.DoesNotExist:
             return None
         self.user_id = token.user.pk
+        self.user_is_free = token.user.is_free
         return token
 
     def _validate_username(self, token):
@@ -45,7 +50,16 @@ class CLIAuthService:
         return self._validate_username(token)
 
     def process_request(self):
-        valid = True
+        valid_credentials = True
         if not self.has_valid_credentials():
-            valid = False
+            valid_credentials = False
+        exceeded_limit = self._has_exceeded_free_limit()
+        valid = valid_credentials and not exceeded_limit
         return self.user_id, valid
+
+    def _has_exceeded_free_limit(self):
+        if not self.user_is_free:
+            return False
+        if settings.FREE_RUNS_LIMITED:
+            return SecTestSuite.objects.filter(user_id=self.user_id).count() > settings.FREE_RUNS
+        return False
