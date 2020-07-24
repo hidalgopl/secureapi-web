@@ -26,9 +26,6 @@ class User(AbstractUser):
     def is_free(self):
         return self.paid_tier == PaidTiers.FREE
 
-    def get_absolute_url(self):
-        return reverse("users:detail", kwargs={"username": self.username})
-
 
 class CLIToken(models.Model):
     token = models.CharField(default=cli_token_gen, max_length=36)

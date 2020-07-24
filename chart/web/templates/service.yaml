@@ -8,6 +8,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
+      name: web
       targetPort: 8001
   selector:
     {{- include "web.selectorLabels" . | nindent 4 }}
