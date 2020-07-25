@@ -3,10 +3,13 @@ kind: Ingress
 metadata:
   name: web
 spec:
+  tls:
+    - secretName: web-tls
   rules:
-  - http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: {{ include "web.fullname" . }}
-          servicePort: {{ .Values.service.port }}
+    - host: {{ .Values.host }}
+      http:
+        paths:
+        - path: /*
+          backend:
+            serviceName: {{ include "web.fullname" . }}
+            servicePort: {{ .Values.service.port }}
